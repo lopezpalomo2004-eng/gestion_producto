@@ -15,6 +15,12 @@ require_once __DIR__ . "/../app/controllers/proveedorControllers.php";
 $proveedorController = new proveedorController();
 $proveedorController->index();
 
+$ProductoController = new ProductoController();
+if (isset($_GET['id'])) {
+    $ProductoController->show($_GET['id']);
+} else {
+    $ProductoController->index();
+}
 
 
 ?>
