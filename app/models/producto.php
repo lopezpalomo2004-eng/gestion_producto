@@ -10,23 +10,35 @@ class producto{
     }
 
     public function getAll()
-    {
-        $sql="SELECT 
-        p.nombre,
-        p.precio,
-        p.categoria,
-        pr.nombre AS proveedor
-        FROM productos p JOIN proveedores pr ON p.proveedor_id=pr.id";
-        $consulta=$this->connection->query($sql);
-        return $consulta->fetchAll(PDO::FETCH_ASSOC);
-    }
+{
+    $sql = "SELECT 
+    p.nombre,
+    p.precio,
+    c.nombre AS categoria,
+    pr.nombre AS proveedor
+    FROM productos p 
+    JOIN categorias c ON p.categoria_id = c.id
+    JOIN proveedores pr ON p.proveedor_id = pr.id";
+    $consulta = $this->connection->query($sql);
+    return $consulta->fetchAll(PDO::FETCH_ASSOC);
+}
 
-    public function getByid($id)
-    {
-        $sql="SELECT * FROM productos WHERE id = $id";
-        $consulta=$this->connection->query($sql);
-        return $consulta->fetch(PDO::FETCH_ASSOC);
-    }
+public function getByid($id)
+{
+    $sql = "SELECT 
+    p.id,
+    p.nombre,
+    p.precio,
+    c.nombre AS categoria,
+    pr.nombre AS proveedor
+    FROM productos p
+    JOIN categorias c ON p.categoria_id = c.id
+    JOIN proveedores pr ON p.proveedor_id = pr.id
+    WHERE p.id = :id";
+    $stmt = $this->connection->prepare($sql);
+    $stmt->execute(['id' => $id]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
      public function getByCategoria($categoria)
     {
         $sql = "SELECT * FROM productos WHERE categoria = :categoria";

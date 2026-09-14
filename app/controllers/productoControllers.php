@@ -9,7 +9,7 @@ class ProductoController
         $productoModel = new producto();
 
         $productos = $productoModel->getAll();
-
+       
         $productoConsultado = $productoModel->getByid(5);
 
          $productosPorCategoria = $productoModel->getByCategoria("ropa");
